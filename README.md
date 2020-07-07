@@ -19,6 +19,9 @@ plugin: cobbler
 url: https://cobbler.example.com/cobbler_api
 ```
 
+See also the [Ansible Inventory Plugins documentation](https://docs.ansible.com/ansible/latest/plugins/inventory.html)
+for more information on how to use inventory plugins.
+
 ## Documentation
 ```
 > INVENTORY    (plugins/inventory/cobbler.py)
