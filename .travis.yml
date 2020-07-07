@@ -23,7 +23,9 @@ before_script:
   - 'git clone --branch stable-2.9 --single-branch https://github.com/ansible/ansible.git'
 
 script:
+  - pwd
+  - ls
   - cd ansible_collection/cobbler/cobbler
-  - . ~/ansible/hacking/env-setup
+  - . ../../../ansible/hacking/env-setup
   - ansible-test sanity --requirements --python $TRAVIS_PYTHON_VERSION
   - ansible-test units --requirements --python $TRAVIS_PYTHON_VERSION
