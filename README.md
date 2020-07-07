@@ -6,7 +6,9 @@ information from a cobbler server.
 ## Installation
 
 You can install the collection from [Ansible Galaxy](https://galaxy.ansible.com/cobbler/cobbler)
-by running `ansible-galaxy collection install cobbler.cobbler` (Ansible 2.9 and later).
+by running `ansible-galaxy collection install cobbler.cobbler` (Ansible 2.9 and later) or
+`ansible-galaxy collection install git+https://github.com/cobbler/ansible.git` for the latest
+version in git.
 
 ## Configuration
 
