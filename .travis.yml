@@ -18,14 +18,12 @@ install:
 
 before_script:
   - cd ../..
-  - mkdir -p ansible_collection/cobbler
-  - mv cobbler/ansible ansible_collection/cobbler/cobbler
+  - mkdir -p ansible_collections/cobbler
+  - mv cobbler/ansible ansible_collections/cobbler/cobbler
   - 'git clone --branch stable-2.9 --single-branch https://github.com/ansible/ansible.git'
 
 script:
-  - pwd
-  - ls
-  - cd ansible_collection/cobbler/cobbler
+  - cd ansible_collections/cobbler/cobbler
   - . ../../../ansible/hacking/env-setup
   - ansible-test sanity --requirements --python $TRAVIS_PYTHON_VERSION
   - ansible-test units --requirements --python $TRAVIS_PYTHON_VERSION
