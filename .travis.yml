@@ -23,6 +23,9 @@ install:
   - pip install jinja2 MarkupSafe pyparsing pycodestyle 'pytest>=4.4.0' pytest-xdist pyyaml
 
 script:
+  - cd ..
+  - mv ansible cobbler
+  - cd cobbler
   - . ~/ansible/hacking/env-setup
   - ansible-test sanity --requirements --python $TRAVIS_PYTHON_VERSION
   - ansible-test units --requirements --python $TRAVIS_PYTHON_VERSION
