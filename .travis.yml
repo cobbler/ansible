@@ -12,20 +12,18 @@ python:
 #  - '3.7'
   - '3.8'
 
-before_install:
-# Build against 2.9 for now.
-  - 'git clone --branch stable-2.9 --single-branch https://github.com/ansible/ansible.git'
-  - mkdir -p ansible_collection/cobbler
-  - cd ansible_collection/cobbler
-
 # Need to specify pytest version or ansible-test --requirements fails
 install:
   - pip install jinja2 MarkupSafe pyparsing pycodestyle 'pytest>=4.4.0' pytest-xdist pyyaml
 
+before_script:
+  - cd ../..
+  - mkdir -p ansible_collection/cobbler
+  - cd cobbler/ansible ansible_collection/cobbler/cobbler
+  - 'git clone --branch stable-2.9 --single-branch https://github.com/ansible/ansible.git'
+
 script:
-  - cd ..
-  - mv ansible cobbler
-  - cd cobbler
+  - cd ansible_collection/cobbler/cobbler
   - . ~/ansible/hacking/env-setup
   - ansible-test sanity --requirements --python $TRAVIS_PYTHON_VERSION
   - ansible-test units --requirements --python $TRAVIS_PYTHON_VERSION
