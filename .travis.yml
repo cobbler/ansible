@@ -19,7 +19,7 @@ install:
 before_script:
   - cd ../..
   - mkdir -p ansible_collection/cobbler
-  - cd cobbler/ansible ansible_collection/cobbler/cobbler
+  - mv cobbler/ansible ansible_collection/cobbler/cobbler
   - 'git clone --branch stable-2.9 --single-branch https://github.com/ansible/ansible.git'
 
 script:
