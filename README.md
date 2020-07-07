@@ -1,4 +1,4 @@
-# Ansible Collection - cobbler.ansible
+# Ansible Collection - cobbler.cobbler
 
 This collection contains an inventory plugin for collecting iventory
 information from a cobbler server.
@@ -19,7 +19,7 @@ url: https://cobbler.example.com/cobbler_api
 
 ## Documentation
 ```
-> INVENTORY    (/export/home/orion-admin/ansible_collections/cobbler/ansible/plugins/inventory/cobbler.py)
+> INVENTORY    (plugins/inventory/cobbler.py)
 
         Get inventory hosts from the cobbler service. Uses a configuration file as an inventory source, it must end in ``.cobbler.yml``
         or ``.cobbler.yaml`` and has a ``plugin: cobbler`` entry.
