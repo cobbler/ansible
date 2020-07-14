@@ -8,50 +8,52 @@ __metaclass__ = type
 DOCUMENTATION = '''
     name: cobbler
     plugin_type: inventory
-    short_description: cobbler inventory source
+    short_description: Cobbler inventory source
+    version_added: 1.0.0
     description:
         - Get inventory hosts from the cobbler service.
-        - "Uses a configuration file as an inventory source, it must end in ``.cobbler.yml`` or ``.cobbler.yaml`` and has a ``plugin: cobbler`` entry."
+        - "Uses a configuration file as an inventory source, it must end in C(.cobbler.yml) or C(.cobbler.yaml) and has a C(plugin: cobbler) entry."
     extends_documentation_fragment:
         - inventory_cache
     options:
       plugin:
-        description: the name of this plugin, it should always be set to 'cobbler' for this plugin to recognize it as it's own.
-        required: True
+        description: The name of this plugin, it should always be set to C(cobbler) for this plugin to recognize it as it's own.
+        required: yes
         choices: ['cobbler']
       url:
-        description: url to cobbler
+        description: URL to cobbler.
         default: 'http://cobbler/cobbler_api'
         env:
             - name: COBBLER_SERVER
       user:
-        description: cobbler authentication user
-        required: False
+        description: Cobbler authentication user.
+        required: no
         env:
             - name: COBBLER_USER
       password:
-        description: cobbler authentication password
-        required: False
+        description: Cobbler authentication password
+        required: no
         env:
             - name: COBBLER_PASSWORD
       exclude_profiles:
-        description: profiles to exclude from inventory
+        description: Profiles to exclude from inventory
         type: list
         default: []
+        elements: str
       group_by:
-        description: keys to group hosts by
+        description: Keys to group hosts by
         type: list
         default: [ 'mgmt_classes', 'owners', 'status' ]
       group:
-        description: group to place all hosts into
+        description: Group to place all hosts into
         default: cobbler
       group_prefix:
-        description: prefix to apply to cobbler groups
+        description: Prefix to apply to cobbler groups
         default: cobbler_
       want_facts:
-        description: Toggle, if True the plugin will retrieve host facts from the server
+        description: Toggle, if C(true) the plugin will retrieve host facts from the server
         type: boolean
-        default: True
+        default: yes
 '''
 
 EXAMPLES = '''
@@ -70,11 +72,16 @@ from ansible.module_utils.common._collections_compat import MutableMapping
 from ansible.module_utils.six import iteritems
 from ansible.plugins.inventory import BaseInventoryPlugin, Cacheable, to_safe_group_name
 
-# 3rd party imports
+# xmlrpc
 try:
     import xmlrpclib as xmlrpc_client
+    HAS_XMLRPC_CLIENT = True
 except ImportError:
-    import xmlrpc.client as xmlrpc_client
+    try:
+        import xmlrpc.client as xmlrpc_client
+        HAS_XMLRPC_CLIENT = True
+    except ImportError:
+        HAS_XMLRPC_CLIENT = False
 
 
 class InventoryModule(BaseInventoryPlugin, Cacheable):
@@ -106,6 +113,9 @@ class InventoryModule(BaseInventoryPlugin, Cacheable):
         return valid
 
     def _get_connection(self):
+        if not HAS_XMLRPC_CLIENT:
+            raise AnsibleError('Could not import xmlrpc client library')
+
         if self.connection is None:
             self.display.vvvv('Connecting to %s\n' % self.cobbler_url)
             self.connection = xmlrpc_client.Server(self.cobbler_url, allow_none=True)
